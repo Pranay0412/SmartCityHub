@@ -16,6 +16,7 @@ public class StreetDAO {
             e.printStackTrace();
         }
     }
+
     public boolean addStreet(Street street) {
         String query = "INSERT INTO Street (Id, StartAreaId, EndAreaId, Distance, IsOneWay) VALUES (?, ?, ?, ?, ?)";
         try (PreparedStatement stmt = connection.prepareStatement(query)) {
@@ -31,6 +32,7 @@ public class StreetDAO {
             return false;
         }
     }
+
     public Street getStreetById(int streetId) {
         String query = "SELECT * FROM Street WHERE Id = ?";
         try (PreparedStatement stmt = connection.prepareStatement(query)) {
@@ -50,7 +52,8 @@ public class StreetDAO {
         }
         return null;
     }
-    public Street getStreetByAreaId(int startAreaId){
+
+    public Street getStreetByAreaId(int startAreaId) {
         String query = "SELECT * FROM Street WHERE areaId = ?";
         try (PreparedStatement stmt = connection.prepareStatement(query)) {
             stmt.setInt(1, startAreaId);
@@ -69,6 +72,7 @@ public class StreetDAO {
         }
         return null;
     }
+
     public List<Street> getAllStreet() {
         List<Street> streets = new ArrayList<>();
         String query = "SELECT * FROM Street";
@@ -88,6 +92,7 @@ public class StreetDAO {
         }
         return streets;
     }
+
     public boolean updateStreet(Street street) {
         String query = "UPDATE Street SET StartAreaId = ?, EndAreaId = ?, IsOneWay = ? WHERE Id = ?";
         try (PreparedStatement stmt = connection.prepareStatement(query)) {
@@ -102,6 +107,7 @@ public class StreetDAO {
             return false;
         }
     }
+
     public boolean deleteStreet(int streetId) {
         String query = "DELETE FROM Street WHERE Id = ?";
         try (PreparedStatement stmt = connection.prepareStatement(query)) {
@@ -113,6 +119,5 @@ public class StreetDAO {
             return false;
         }
     }
-
 
 }
