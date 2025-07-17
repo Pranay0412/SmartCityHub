@@ -1,13 +1,13 @@
 package Model;
 
-public class MetroRegistration {
+public class Metro {
     int id;
     String trainName;
     int capacity;
     Integer currentRouteID;
     Integer currentAreaID;
 
-    public MetroRegistration(int id, String trainName, int capacity, Integer currentRouteID, Integer currentAreaID) {
+    public Metro(int id, String trainName, int capacity, Integer currentRouteID, Integer currentAreaID) {
         this.id = id;
         this.trainName = trainName;
         this.capacity = capacity;

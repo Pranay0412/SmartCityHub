@@ -2,17 +2,19 @@ package DataBase;
 
 import Model.Street;
 
+import java.util.List;
+
 public class StreetDAO {
     public void addStreet(Street route) {
 
     }
-    public void getStreetById(int routeId) {
+    public Street getStreetById(int routeId) {
 
     }
-    public void getStreetByAreaId(int areaId){
+    public Street getStreetByAreaId(int areaId){
 
     }
-    public void getAllStreet() {
+    public List<Street> getAllStreet() {
 
     }
     public void updateStreet(Street route) {

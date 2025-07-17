@@ -1,13 +1,13 @@
 package Model;
 
-public class BusRegistration {
+public class Bus {
     int id;
     String licensePlate;
     int capacity;
     Integer currentRouteId;
     Integer currentAreaID;
 
-    public BusRegistration(int id, String licensePlate, int capacity, Integer currentRouteId, Integer currentAreaID) {
+    public Bus(int id, String licensePlate, int capacity, Integer currentRouteId, Integer currentAreaID) {
         this.id = id;
         this.licensePlate = licensePlate;
         this.capacity = capacity;
