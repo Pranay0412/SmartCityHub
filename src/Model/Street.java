@@ -15,6 +15,8 @@ public class Street {
         this.isOneWay = isOneWay;
     }
 
+    public Street() {}
+
     public int getId() {
         return id;
     }
@@ -34,6 +36,14 @@ public class Street {
     public boolean isOneWay() {
         return isOneWay;
     }
+
+    public void setId(int id) { this.id = id; }
+
+    public void setStartAreaId(int startAreaId) { this.startAreaId = startAreaId; }
+
+    public void setEndAreaId(int endAreaId) { this.endAreaId = endAreaId; }
+
+    public void setOneWay(boolean oneWay) { isOneWay = oneWay; }
 
     public void setDistance(double distance) {
         this.distance = distance;
