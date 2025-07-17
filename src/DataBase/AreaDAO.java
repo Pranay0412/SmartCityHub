@@ -2,10 +2,8 @@ package DataBase;
 
 import Model.Area;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
+import java.util.ArrayList;
 import java.util.List;
 
 public class AreaDAO {
@@ -19,7 +17,7 @@ public class AreaDAO {
         }
     }
 
-    public boolean addArea(Area area){
+    public boolean addArea(Area area) {
         String query = "INSERT INTO Area (Id, Name, Latitude, Longitude, IsEmergencyPoint) VALUES (?, ?, ?, ?, ?)";
         try (PreparedStatement stmt = connection.prepareStatement(query)) {
             stmt.setInt(1, area.getAreaId());
@@ -35,7 +33,8 @@ public class AreaDAO {
             return false;
         }
     }
-    public Area getAreaById(int areaId){
+
+    public Area getAreaById(int areaId) {
         String query = "SELECT * FROM Area WHERE Id = ?";
         try (PreparedStatement stmt = connection.prepareStatement(query)) {
             stmt.setInt(1, areaId);
@@ -46,6 +45,7 @@ public class AreaDAO {
                 area.setName(rs.getString(2));
                 area.setLatitude(rs.getDouble(3));
                 area.setLongitude(rs.getDouble(4));
+                area.setEmergencyPoint(rs.getBoolean(5));
                 return area;
             }
         } catch (SQLException e) {
@@ -53,16 +53,72 @@ public class AreaDAO {
         }
         return null;
     }
+
     public List<Area> getAllArea() {
-
+        List<Area> areas = new ArrayList<>();
+        String query = "SELECT * FROM Area";
+        try (Statement stmt = connection.createStatement()) {
+            ResultSet rs = stmt.executeQuery(query);
+            while (rs.next()) {
+                Area area = new Area();
+                area.setId(rs.getInt(1));
+                area.setName(rs.getString(2));
+                area.setLatitude(rs.getDouble(3));
+                area.setLongitude(rs.getDouble(4));
+                area.setEmergencyPoint(rs.getBoolean(5));
+                areas.add(area);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return areas;
     }
-    public void updateArea(Area area){
 
+    public boolean updateArea(Area area) {
+        String query = "UPDATE Area SET name = ?, isEmergencyPoint = ? WHERE id = ?";
+        try (PreparedStatement stmt = connection.prepareStatement(query)) {
+            stmt.setString(1, area.getName());
+            stmt.setBoolean(2, area.isEmergencyPoint());
+            stmt.setInt(3, area.getAreaId());
+            int rowsUpdated = stmt.executeUpdate();
+            return rowsUpdated > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
-    public void deleteArea(int areaId){
 
+    public boolean deleteArea(int areaId) {
+        String query = "DELETE FROM Area WHERE id = ?";
+        try (PreparedStatement stmt = connection.prepareStatement(query)) {
+            stmt.setInt(1, areaId);
+            int rowsDeleted = stmt.executeUpdate();
+            return rowsDeleted > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
+
+
     public List<Area> getAreaInArea(double minLat, double maxLat, double minLon, double maxLon) {
+        List<Area> areas = new ArrayList<>();
+        String query = "SELECT * FROM Area WHERE Latitude between "+minLat+" and "+maxLat+" AND Longitude between "+minLon+" and "+maxLon+" ORDER BY Id";
+        try (Statement stmt = connection.createStatement()) {
+            ResultSet rs = stmt.executeQuery(query);
+            while (rs.next()) {
+                Area area = new Area();
+                area.setId(rs.getInt(1));
+                area.setName(rs.getString(2));
+                area.setLatitude(rs.getDouble(3));
+                area.setLongitude(rs.getDouble(4));
+                area.setEmergencyPoint(rs.getBoolean(5));
+                areas.add(area);
+            }
 
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return areas;
     }
 }
