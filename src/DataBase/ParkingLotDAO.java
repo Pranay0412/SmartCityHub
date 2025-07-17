@@ -1,6 +1,6 @@
 package DataBase;
 
-import SmartCity.ParkingLot;
+import Model.ParkingLot;
 
 public class ParkingLotDAO {
     public void addParkingLot(ParkingLot lot){}

@@ -1,6 +1,6 @@
 package DataBase;
 
-import SmartCity.Street;
+import Model.Street;
 
 public class StreetDAO {
     public void addStreet(Street route) {

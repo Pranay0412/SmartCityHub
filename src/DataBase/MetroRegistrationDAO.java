@@ -1,6 +1,6 @@
 package DataBase;
 
-import SmartCity.MetroRegistration;
+import Model.MetroRegistration;
 
 public class MetroRegistrationDAO {
     public void addMetro(MetroRegistration metro){}

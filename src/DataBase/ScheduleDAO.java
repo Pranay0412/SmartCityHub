@@ -1,6 +1,6 @@
 package DataBase;
 
-import SmartCity.Schedule;
+import Model.Schedule;
 
 import java.sql.Time;
 

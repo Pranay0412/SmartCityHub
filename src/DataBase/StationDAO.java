@@ -1,6 +1,6 @@
 package DataBase;
 
-import SmartCity.Station;
+import Model.Station;
 
 public class StationDAO {
     public void addStation(Station station){}

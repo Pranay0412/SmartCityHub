@@ -1,6 +1,6 @@
 package DataBase;
 
-import SmartCity.EmergencyService;
+import Model.EmergencyService;
 
 public class EmergencyServiceDAO {
     public void addEmergencyService(EmergencyService service){}

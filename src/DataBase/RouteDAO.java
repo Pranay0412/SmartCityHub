@@ -1,6 +1,6 @@
 package DataBase;
 
-import SmartCity.Route;
+import Model.Route;
 
 public class RouteDAO {
     public void addRoute(Route route){}

@@ -1,6 +1,6 @@
 package DataBase;
 
-import SmartCity.BusRegistration;
+import Model.BusRegistration;
 
 public class BusRegistrationDAO {
     public void addBus(BusRegistration bus){}

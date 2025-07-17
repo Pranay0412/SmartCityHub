@@ -1,4 +1,4 @@
-package SmartCity;
+package Model;
 
 public class Area {
     int id;

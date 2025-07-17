@@ -1,6 +1,6 @@
 package DataBase;
 
-import SmartCity.Area;
+import Model.Area;
 
 public class AreaDAO {
     public void addArea(Area area){

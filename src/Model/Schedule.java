@@ -1,4 +1,4 @@
-package SmartCity;
+package Model;
 
 import java.sql.Time;
 

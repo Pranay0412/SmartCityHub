@@ -1,4 +1,4 @@
-package SmartCity;
+package Model;
 
 public class BusRegistration {
     int id;
