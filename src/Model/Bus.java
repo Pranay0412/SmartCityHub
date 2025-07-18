@@ -15,6 +15,8 @@ public class Bus {
         this.currentAreaID = currentAreaID;
     }
 
+    public Bus() {}
+
     public int getId() {
         return id;
     }
@@ -34,6 +36,12 @@ public class Bus {
     public Integer getCurrentAreaID() {
         return currentAreaID;
     }
+
+    public void setId(int id) { this.id = id; }
+
+    public void setLicensePlate(String licensePlate) { this.licensePlate = licensePlate; }
+
+    public void setCapacity(int capacity) { this.capacity = capacity; }
 
     public void setCurrentRouteId(Integer currentRouteId) {
         this.currentRouteId = currentRouteId;
