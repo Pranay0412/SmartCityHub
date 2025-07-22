@@ -2,14 +2,19 @@ package src.Authentication;
 
 
 import DataBase.AreaDAO;
+import DataBase.BusDAO;
+import DataBase.EmergencyServiceDAO;
 
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 import static DataBase.DataBaseManager.connection;
 
-class Login {
+public class Login {
         Scanner sc=new Scanner(System.in);
         void loginMenu() {
             System.out.println("Welcome to the Login System");
@@ -36,9 +41,10 @@ class Login {
             }
         }
 
-        void adminLogin() throws SQLException {
+        public boolean adminLogin() throws SQLException {
             int attempts = 0;
             int MAX_ATTEMPTS = 3;
+            int r=0;
 
             while (attempts < MAX_ATTEMPTS) {
                 System.out.print("Enter admin username: ");
@@ -58,8 +64,8 @@ class Login {
 
                         if (password.equals(dbPassword)) {
                             System.out.println("Admin login successful!");
-                            adminDashboard();
-                            return;
+                            r=1;
+                            break;
                         } else {
                             attempts++;
                             System.out.println("Invalid password! Attempts remaining: " + (MAX_ATTEMPTS - attempts));
@@ -70,13 +76,20 @@ class Login {
                         System.out.println("Attempts remaining: " + (MAX_ATTEMPTS - attempts));
                     }
             }
-
-            System.out.println("Maximum login attempts reached. Please try again later.");
+            if(r==1)
+            {
+                return true;
+            }
+            else {
+                System.out.println("Maximum login attempts reached. Please try again later.");
+                return false;
+            }
         }
 
-        void customerLogin() throws SQLException {
+        public boolean customerLogin() throws SQLException {
             int attempts = 0;
             int MAX_ATTEMPTS = 3;
+            int r=0;
 
             while (attempts < MAX_ATTEMPTS) {
                 System.out.print("Enter customer username: ");
@@ -98,8 +111,8 @@ class Login {
                         if (password.equals(dbPassword)) {
                             System.out.println("Customer login successful!");
                             System.out.println("Welcome, " + fullName + "!");
-                            customerDashboard();
-                            return;
+                            r=1;
+                            break;
                         } else {
                             attempts++;
                             System.out.println("Invalid password! Attempts remaining: " + (MAX_ATTEMPTS - attempts));
@@ -110,11 +123,17 @@ class Login {
                         System.out.println("Attempts remaining: " + (MAX_ATTEMPTS - attempts));
                     }
             }
-
-            System.out.println("Maximum login attempts reached. Please try again later.");
+            if(r==1)
+            {
+                return true;
+            }
+            else {
+                System.out.println("Maximum login attempts reached. Please try again later.");
+                return false;
+            }
         }
 
-        void customerRegistration() throws SQLException {
+        public void customerRegistration() throws SQLException {
             System.out.println("Customer Registration");
 
             System.out.print("Enter username: ");
@@ -227,21 +246,96 @@ class Login {
                         case 4:
                             System.out.println("Exiting.....");
                             break;
+                        default:
+                            System.out.println("Invalid option!");
+                            break;
                     }
                     break;
                 }
                 case 3:
                 {
+                    DataBase.BusDAO a=new BusDAO();
                     System.out.println("Bus System");
                     System.out.println("1.Add bus");
-                    System.out.println("2.Update bus");
-                    System.out.println("3.Delete bus");
+                    System.out.println("2.Update bus Location");
+                    System.out.println("3.Update bus Route");
                     System.out.println("4.Exit");
                     int ch=sc.nextInt();
                     switch (ch)
                     {
-
+                        case 1: {
+                            boolean b = a.addBus();
+                            if (b) {
+                                System.out.println("Added successfully");
+                            }
+                            else {
+                                System.out.println("Failed");
+                            }
+                            break;
+                        }
+                        case 2:
+                        {
+                            boolean b=a.updateBusLocation();
+                            if (b) {
+                                System.out.println("updated successfully");
+                            }
+                            else {
+                                System.out.println("Failed");
+                            }
+                            break;
+                        }
+                        case 3:
+                        {
+                            boolean b= a.updateBusRoute();
+                            if (b) {
+                                System.out.println("Updated successfully");
+                            }
+                            else {
+                                System.out.println("Failed");
+                            }
+                            break;
+                        }
+                        case 4:
+                            System.out.println("Exiting.....");
+                            break;
+                        default:
+                            System.out.println("Invalid option!");
+                            break;
                     }
+                    break;
+                }
+                case 4: {
+                    DataBase.EmergencyServiceDAO a=new EmergencyServiceDAO();
+                    System.out.println("1. To add EmergencyServices");
+                    System.out.println("2.display all EmergencyServices");
+                    System.out.println("3. To exit");
+                    System.out.println("Enter choice: ");
+                    int ch=sc.nextInt();
+                    switch(ch) {
+                        case 1: //add
+                        {
+                            boolean b = a.addEmergencyService();
+                            if (b) {
+                                System.out.println("Added successfully");
+                            }
+                            else {
+                                System.out.println("Failed");
+                            }
+                            break;
+                        }
+                        case 2: //display
+                        {
+                            ArrayList b=a.getAllEmergencyService();
+                            break;
+                        }
+                        case 3:
+                            System.out.println("Exiting.....");
+                            break;
+                        default:
+                            System.out.println("Invalid option!");
+                            break;
+                    }
+                    break;
                 }
                 default:
                     System.out.println("Invalid option!");
@@ -272,7 +366,7 @@ class Login {
             }
         }
 
-        void viewAllCustomers() {
+        public void viewAllCustomers() {
                 String sql = "SELECT id, username, email, full_name, created_at FROM customers";
                 Statement stmt = connection.createStatement();
                 ResultSet rs = stmt.executeQuery(sql);
