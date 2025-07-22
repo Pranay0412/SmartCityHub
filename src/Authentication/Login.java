@@ -1,6 +1,6 @@
-package src.Authentication;
+package Authentication;
 
-import java.sql.*;
+
 import java.util.Scanner;
 
 import static DataBase.DataBaseManager.connection;
