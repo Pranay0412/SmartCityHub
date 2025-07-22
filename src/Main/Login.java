@@ -5,14 +5,14 @@ import java.sql.*;
 import java.util.Scanner;
 
 class LoginSystem {
+    Scanner sc=new Scanner(System.in);
     // for main
 //    // Database connection details
 //    String DB_URL = "jdbc:mysql://localhost:3306/login_system";
 //    String DB_USER = "root";
-//    String DB_PASSWORD = "yourpassword";
+//    String DB_PASSWORD = "";
 //
 //    public static void main(String[] args) {
-//        Scanner scanner = new Scanner(System.in);
 //
 //        System.out.println("Welcome to the Login System");
 //        System.out.println("1. Admin Login");
@@ -20,36 +20,34 @@ class LoginSystem {
 //        System.out.println("3. Customer Registration");
 //        System.out.print("Select an option: ");
 //
-//        int choice = scanner.nextInt();
-//        scanner.nextLine(); // Consume newline
+//        int choice = sc.nextInt();
+//        sc.nextLine(); // Consume newline
 //
 //        switch (choice) {
 //            case 1:
-//                adminLogin(scanner);
+//                adminLogin();
 //                break;
 //            case 2:
-//                customerLogin(scanner);
+//                customerLogin();
 //                break;
 //            case 3:
-//                customerRegistration(scanner);
+//                customerRegistration();
 //                break;
 //            default:
 //                System.out.println("Invalid option!");
 //        }
-//
-//        scanner.close();
 //    }
 
-     void adminLogin(Scanner scanner) {
+     void adminLogin() {
         int attempts = 0;
-        final int MAX_ATTEMPTS = 3;
+        int MAX_ATTEMPTS = 3;
 
         while (attempts < MAX_ATTEMPTS) {
             System.out.print("Enter admin username: ");
-            String username = scanner.nextLine();
+            String username = sc.nextLine();
 
             System.out.print("Enter password: ");
-            String password = scanner.nextLine();
+            String password = sc.nextLine();
 
             try (Connection conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD)) {
                 String sql = "SELECT password FROM admins WHERE username = ?";
@@ -63,7 +61,7 @@ class LoginSystem {
 
                     if (password.equals(dbPassword)) {
                         System.out.println("Admin login successful!");
-                        adminDashboard(scanner);
+                        adminDashboard();
                         return;
                     } else {
                         attempts++;
@@ -83,16 +81,16 @@ class LoginSystem {
         System.out.println("Maximum login attempts reached. Please try again later.");
     }
 
-    void customerLogin(Scanner scanner) {
+    void customerLogin() {
         int attempts = 0;
-        final int MAX_ATTEMPTS = 3;
+        int MAX_ATTEMPTS = 3;
 
         while (attempts < MAX_ATTEMPTS) {
             System.out.print("Enter customer username: ");
-            String username = scanner.nextLine();
+            String username = sc.nextLine();
 
             System.out.print("Enter password: ");
-            String password = scanner.nextLine();
+            String password = sc.nextLine();
 
             try (Connection conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD)) {
                 String sql = "SELECT password, full_name FROM customers WHERE username = ?";
@@ -128,20 +126,20 @@ class LoginSystem {
         System.out.println("Maximum login attempts reached. Please try again later.");
     }
 
-    void customerRegistration(Scanner scanner) {
+    void customerRegistration() {
         System.out.println("Customer Registration");
 
         System.out.print("Enter username: ");
-        String username = scanner.nextLine();
+        String username = sc.nextLine();
 
         System.out.print("Enter password: ");
-        String password = scanner.nextLine();
+        String password = sc.nextLine();
 
         System.out.print("Enter email: ");
-        String email = scanner.nextLine();
+        String email = sc.nextLine();
 
         System.out.print("Enter full name: ");
-        String fullName = scanner.nextLine();
+        String fullName = sc.nextLine();
 
         try (Connection conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD)) {
             // Check if username or email already exists
@@ -177,49 +175,49 @@ class LoginSystem {
         }
     }
 
-    void adminDashboard(Scanner scanner) {
+    void adminDashboard() {
         System.out.println("\nAdmin Dashboard");
         System.out.println("1. View all customers");
         System.out.println("2. Logout");
         System.out.print("Select an option: ");
 
-        int choice = scanner.nextInt();
-        scanner.nextLine(); // Consume newline
+        int choice = sc.nextInt();
+        sc.nextLine(); // Consume newline
 
         switch (choice) {
             case 1:
                 viewAllCustomers();
-                adminDashboard(scanner); // Show menu again
+                adminDashboard(); // Show menu again
                 break;
             case 2:
                 System.out.println("Logged out successfully.");
                 break;
             default:
                 System.out.println("Invalid option!");
-                adminDashboard(scanner);
+                adminDashboard();
         }
     }
 
-    void customerDashboard(Scanner scanner) {
+    void customerDashboard() {
         System.out.println("\nCustomer Dashboard");
         System.out.println("1. View profile");
         System.out.println("2. Logout");
         System.out.print("Select an option: ");
 
-        int choice = scanner.nextInt();
-        scanner.nextLine(); // Consume newline
+        int choice = sc.nextInt();
+        sc.nextLine(); // Consume newline
 
         switch (choice) {
             case 1:
                 System.out.println("Profile information would be displayed here.");
-                customerDashboard(scanner); // Show menu again
+                customerDashboard(); // Show menu again
                 break;
             case 2:
                 System.out.println("Logged out successfully.");
                 break;
             default:
                 System.out.println("Invalid option!");
-                customerDashboard(scanner);
+                customerDashboard();
         }
     }
 
