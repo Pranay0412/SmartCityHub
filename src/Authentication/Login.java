@@ -1,6 +1,10 @@
 package src.Authentication;
 
 
+import DataBase.AreaDAO;
+
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.Scanner;
 
 import static DataBase.DataBaseManager.connection;
@@ -32,7 +36,7 @@ class Login {
             }
         }
 
-        void adminLogin() {
+        void adminLogin() throws SQLException {
             int attempts = 0;
             int MAX_ATTEMPTS = 3;
 
@@ -70,7 +74,7 @@ class Login {
             System.out.println("Maximum login attempts reached. Please try again later.");
         }
 
-        void customerLogin() {
+        void customerLogin() throws SQLException {
             int attempts = 0;
             int MAX_ATTEMPTS = 3;
 
@@ -110,7 +114,7 @@ class Login {
             System.out.println("Maximum login attempts reached. Please try again later.");
         }
 
-        void customerRegistration() {
+        void customerRegistration() throws SQLException {
             System.out.println("Customer Registration");
 
             System.out.print("Enter username: ");
@@ -174,16 +178,71 @@ class Login {
             sc.nextLine(); // Consume newline
 
             switch (choice) {
-                case 1:
+                case 1: {
                     viewAllCustomers();
                     adminDashboard(); // Show menu again
                     break;
-                case 2:
+                }
+                case 2: {
+                    DataBase.AreaDAO a=new AreaDAO();
                     System.out.println("1. To add Area");
                     System.out.println("2. To Update Area");
                     System.out.println("3. To delete Area");
-                    System.out.println("");
+                    System.out.println("4. To exit");
+                    System.out.println("Enter choice: ");
+                    int ch=sc.nextInt();
+                    switch(ch) {
+                        case 1: {
+                            boolean b = a.addArea();
+                            if (b) {
+                                System.out.println("Added successfully");
+                            }
+                            else {
+                                System.out.println("Failed");
+                            }
+                            break;
+                        }
+                        case 2:
+                        {
+                            boolean b=a.updateArea();
+                            if (b) {
+                                System.out.println("updated successfully");
+                            }
+                            else {
+                                System.out.println("Failed");
+                            }
+                            break;
+                        }
+                        case 3:
+                        {
+                            boolean b= a.deleteArea();
+                            if (b) {
+                                System.out.println("Deleted successfully");
+                            }
+                            else {
+                                System.out.println("Failed");
+                            }
+                            break;
+                        }
+                        case 4:
+                            System.out.println("Exiting.....");
+                            break;
+                    }
                     break;
+                }
+                case 3:
+                {
+                    System.out.println("Bus System");
+                    System.out.println("1.Add bus");
+                    System.out.println("2.Update bus");
+                    System.out.println("3.Delete bus");
+                    System.out.println("4.Exit");
+                    int ch=sc.nextInt();
+                    switch (ch)
+                    {
+
+                    }
+                }
                 default:
                     System.out.println("Invalid option!");
                     adminDashboard();
