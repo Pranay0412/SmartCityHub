@@ -6,14 +6,14 @@ public class Schedule {
     int id;
     int routeID;
     Time departureTime;
-    String dayOfWeek;
 
-    public Schedule(int id, int routeID, Time departureTime, String dayOfWeek) {
+    public Schedule(int id, int routeID, Time departureTime) {
         this.id = id;
         this.routeID = routeID;
         this.departureTime = departureTime;
-        this.dayOfWeek = dayOfWeek;
     }
+
+    public Schedule() {}
 
     public int getId() {
         return id;
@@ -27,7 +27,15 @@ public class Schedule {
         return departureTime;
     }
 
-    public String getDayOfWeek() {
-        return dayOfWeek;
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public void setRouteID(int routeID) {
+        this.routeID = routeID;
+    }
+
+    public void setDepartureTime(Time departureTime) {
+        this.departureTime = departureTime;
     }
 }

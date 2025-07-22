@@ -20,10 +20,10 @@ public class BusDAO {
     public boolean addBus(Bus bus) {
         String query = "INSERT INTO Bus (LicensePlate, Capacity, CurrentRouteID, CurrentAreaID) VALUES (?, ?, ?, ?)";
         try (PreparedStatement stmt = connection.prepareStatement(query)) {
-            stmt.setString(2, bus.getLicensePlate());
-            stmt.setInt(3, bus.getCapacity());
-            stmt.setInt(4, bus.getCurrentRouteId());
-            stmt.setInt(5, bus.getCurrentAreaID());
+            stmt.setString(1, bus.getLicensePlate());
+            stmt.setInt(2, bus.getCapacity());
+            stmt.setInt(3, bus.getCurrentRouteId());
+            stmt.setInt(4, bus.getCurrentAreaID());
             int rowsInserted = stmt.executeUpdate();
             return rowsInserted > 0;
         } catch (SQLException e) {

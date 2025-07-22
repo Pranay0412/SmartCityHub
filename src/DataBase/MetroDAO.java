@@ -20,10 +20,10 @@ public class MetroDAO {
     public boolean addMetro(Metro metro) {
         String query = "INSERT INTO Metro (TrainName, Capacity, CurrentRouteID, CurrentAreaID) VALUES (?, ?, ?, ?)";
         try (PreparedStatement stmt = connection.prepareStatement(query)) {
-            stmt.setString(2, metro.getTrainName());
-            stmt.setInt(3, metro.getCapacity());
-            stmt.setInt(4, metro.getCurrentRouteID());
-            stmt.setInt(5, metro.getCurrentAreaID());
+            stmt.setString(1, metro.getTrainName());
+            stmt.setInt(2, metro.getCapacity());
+            stmt.setInt(3, metro.getCurrentRouteID());
+            stmt.setInt(4, metro.getCurrentAreaID());
             int rowsInserted = stmt.executeUpdate();
             return rowsInserted > 0;
         } catch (SQLException e) {
