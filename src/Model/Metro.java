@@ -15,6 +15,9 @@ public class Metro {
         this.currentAreaID = currentAreaID;
     }
 
+    public Metro() {}
+
+
     public int getId() {
         return id;
     }
@@ -29,6 +32,17 @@ public class Metro {
 
     public Integer getCurrentRouteID() {
         return currentRouteID;
+    }
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public void setTrainName(String trainName) {
+        this.trainName = trainName;
+    }
+
+    public void setCapacity(int capacity) {
+        this.capacity = capacity;
     }
 
     public Integer getCurrentAreaID() {
