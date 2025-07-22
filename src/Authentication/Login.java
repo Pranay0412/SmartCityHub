@@ -158,6 +158,15 @@ class Login {
         void adminDashboard() {
             System.out.println("\nAdmin Dashboard");
             System.out.println("1. View all customers");
+            System.out.println("2. Area");
+            System.out.println("3. Bus");
+            System.out.println("4. EmergencyServices");
+            System.out.println("5. Metro");
+            System.out.println("6. ParkingLot");
+            System.out.println("6. Route");
+            System.out.println("6. Schedule");
+            System.out.println("6. Station");
+            System.out.println("6. Street");
             System.out.println("2. Logout");
             System.out.print("Select an option: ");
 
@@ -170,7 +179,10 @@ class Login {
                     adminDashboard(); // Show menu again
                     break;
                 case 2:
-                    System.out.println("Logged out successfully.");
+                    System.out.println("1. To add Area");
+                    System.out.println("2. To Update Area");
+                    System.out.println("3. To delete Area");
+                    System.out.println("");
                     break;
                 default:
                     System.out.println("Invalid option!");
