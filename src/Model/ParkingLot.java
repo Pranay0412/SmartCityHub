@@ -15,6 +15,8 @@ public class ParkingLot {
         this.currentOccupancy = currentOccupancy;
     }
 
+    public ParkingLot() {}
+
     public int getId() {
         return id;
     }
@@ -33,6 +35,22 @@ public class ParkingLot {
 
     public int getCurrentOccupancy() {
         return currentOccupancy;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setAreaId(int areaId) {
+        this.areaId = areaId;
+    }
+
+    public void setCapacity(int capacity) {
+        this.capacity = capacity;
     }
 
     public void setCurrentOccupancy(int currentOccupancy) {
