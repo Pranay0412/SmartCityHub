@@ -18,9 +18,8 @@ public class BusDAO {
     }
 
     public boolean addBus(Bus bus) {
-        String query = "INSERT INTO Bus (Id, LicensePlate, Capacity, CurrentRouteID, CurrentAreaID) VALUES (?, ?, ?, ?, ?)";
+        String query = "INSERT INTO Bus (LicensePlate, Capacity, CurrentRouteID, CurrentAreaID) VALUES (?, ?, ?, ?)";
         try (PreparedStatement stmt = connection.prepareStatement(query)) {
-            stmt.setInt(1, bus.getId());
             stmt.setString(2, bus.getLicensePlate());
             stmt.setInt(3, bus.getCapacity());
             stmt.setInt(4, bus.getCurrentRouteId());

@@ -18,9 +18,8 @@ public class MetroDAO {
         }
 
     public boolean addMetro(Metro metro) {
-        String query = "INSERT INTO Metro (Id, TrainName, Capacity, CurrentRouteID, CurrentAreaID) VALUES (?, ?, ?, ?, ?)";
+        String query = "INSERT INTO Metro (TrainName, Capacity, CurrentRouteID, CurrentAreaID) VALUES (?, ?, ?, ?)";
         try (PreparedStatement stmt = connection.prepareStatement(query)) {
-            stmt.setInt(1, metro.getId());
             stmt.setString(2, metro.getTrainName());
             stmt.setInt(3, metro.getCapacity());
             stmt.setInt(4, metro.getCurrentRouteID());
