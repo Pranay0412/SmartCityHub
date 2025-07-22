@@ -6,10 +6,10 @@ import java.sql.SQLException;
 import java.sql.SQLOutput;
 
 public class DataBaseManager {
-    private static final String URL = "jdbc:mysql://localhost:3306/SmartCityHub";
-    private static final String USER = "root";
-    private static final String PASSWORD = "";
-    static Connection connection;
+    private static String URL = "jdbc:mysql://localhost:3306/SmartCityHub";
+    private static String USER = "root";
+    private static String PASSWORD = "";
+    public static Connection connection;
 
     public void getInstance() throws ClassNotFoundException {
         String driverManager = "com.mysql.cj.jdbc.Driver";

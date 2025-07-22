@@ -1,4 +1,4 @@
-package Authentication;
+package src.Authentication;
 
 
 import java.util.Scanner;
