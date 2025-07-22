@@ -1,8 +1,12 @@
 package src.Authentication;
 
 import java.sql.*;
+import java.util.Scanner;
 
-    class Login {
+import static DataBase.DataBaseManager.connection;
+
+class Login {
+        Scanner sc=new Scanner(System.in);
         void loginMenu() {
             System.out.println("Welcome to the Login System");
             System.out.println("1. Admin Login");
@@ -39,9 +43,8 @@ import java.sql.*;
                 System.out.print("Enter password: ");
                 String password = sc.nextLine();
 
-                try (Connection conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD)) {
                     String sql = "SELECT password FROM admins WHERE username = ?";
-                    PreparedStatement stmt = conn.prepareStatement(sql);
+                    PreparedStatement stmt = connection.prepareStatement(sql);
                     stmt.setString(1, username);
 
                     ResultSet rs = stmt.executeQuery();
@@ -62,10 +65,6 @@ import java.sql.*;
                         attempts++;
                         System.out.println("Attempts remaining: " + (MAX_ATTEMPTS - attempts));
                     }
-                } catch (SQLException e) {
-                    System.out.println("Database error: " + e.getMessage());
-                    return;
-                }
             }
 
             System.out.println("Maximum login attempts reached. Please try again later.");
@@ -82,9 +81,8 @@ import java.sql.*;
                 System.out.print("Enter password: ");
                 String password = sc.nextLine();
 
-                try (Connection conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD)) {
                     String sql = "SELECT password, full_name FROM customers WHERE username = ?";
-                    PreparedStatement stmt = conn.prepareStatement(sql);
+                    PreparedStatement stmt =connection.prepareStatement(sql);
                     stmt.setString(1, username);
 
                     ResultSet rs = stmt.executeQuery();
@@ -96,7 +94,7 @@ import java.sql.*;
                         if (password.equals(dbPassword)) {
                             System.out.println("Customer login successful!");
                             System.out.println("Welcome, " + fullName + "!");
-                            customerDashboard(scanner);
+                            customerDashboard();
                             return;
                         } else {
                             attempts++;
@@ -107,10 +105,6 @@ import java.sql.*;
                         attempts++;
                         System.out.println("Attempts remaining: " + (MAX_ATTEMPTS - attempts));
                     }
-                } catch (SQLException e) {
-                    System.out.println("Database error: " + e.getMessage());
-                    return;
-                }
             }
 
             System.out.println("Maximum login attempts reached. Please try again later.");
@@ -131,10 +125,9 @@ import java.sql.*;
             System.out.print("Enter full name: ");
             String fullName = sc.nextLine();
 
-            try (Connection conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD)) {
                 // Check if username or email already exists
                 String checkSql = "SELECT id FROM customers WHERE username = ? OR email = ?";
-                PreparedStatement checkStmt = conn.prepareStatement(checkSql);
+                PreparedStatement checkStmt = connection.prepareStatement(checkSql);
                 checkStmt.setString(1, username);
                 checkStmt.setString(2, email);
 
@@ -147,7 +140,7 @@ import java.sql.*;
 
                 // Insert new customer (password stored in plain text - not recommended for production)
                 String insertSql = "INSERT INTO customers (username, password, email, full_name) VALUES (?, ?, ?, ?)";
-                PreparedStatement insertStmt = conn.prepareStatement(insertSql);
+                PreparedStatement insertStmt = connnection.prepareStatement(insertSql);
                 insertStmt.setString(1, username);
                 insertStmt.setString(2, password);
                 insertStmt.setString(3, email);
@@ -160,9 +153,6 @@ import java.sql.*;
                 } else {
                     System.out.println("Registration failed!");
                 }
-            } catch (SQLException e) {
-                System.out.println("Database error: " + e.getMessage());
-            }
         }
 
         void adminDashboard() {
@@ -212,9 +202,8 @@ import java.sql.*;
         }
 
         void viewAllCustomers() {
-            try (Connection conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD)) {
                 String sql = "SELECT id, username, email, full_name, created_at FROM customers";
-                Statement stmt = conn.createStatement();
+                Statement stmt = connection.createStatement();
                 ResultSet rs = stmt.executeQuery(sql);
 
                 System.out.println("\nList of all customers:");
@@ -229,9 +218,6 @@ import java.sql.*;
                                     rs.getTimestamp("created_at")
                     );
                 }
-            } catch (SQLException e) {
-                System.out.println("Database error: " + e.getMessage());
-            }
         }
     }
 
