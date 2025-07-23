@@ -105,11 +105,11 @@ public class TicketDAO {
      */
     public void searchTickets(int routeId, int userId) throws SQLException {
         String sql = "SELECT * FROM ticket WHERE RouteId = ? OR UserId = ?";
-        PreparedStatement pstmt = connection.prepareStatement(sql);
-        pstmt.setInt(1, routeId);
-        pstmt.setInt(2, userId);
+        PreparedStatement stmt = connection.prepareStatement(sql);
+        stmt.setInt(1, routeId);
+        stmt.setInt(2, userId);
 
-        ResultSet rs = pstmt.executeQuery();
+        ResultSet rs = stmt.executeQuery();
         ResultSetMetaData rsmd = rs.getMetaData();
 
         boolean found = false;
