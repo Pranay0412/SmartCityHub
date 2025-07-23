@@ -3,6 +3,7 @@ package Model;
 public class Route {
     int id;
     String name;
+    double length;
     boolean isBusRoute;
     boolean isMetroRoute;
 
@@ -11,12 +12,14 @@ public class Route {
      *
      * @param id           for id of Route
      * @param name         for name of Route
+     * @param length       for length of Route
      * @param isBusRoute   for Bus Route
      * @param isMetroRoute for Metro Route
      */
-    public Route(int id, String name, boolean isBusRoute, boolean isMetroRoute) {
+    public Route(int id, String name, double length, boolean isBusRoute, boolean isMetroRoute) {
         this.id = id;
         this.name = name;
+        this.length = length;
         this.isBusRoute = isBusRoute;
         this.isMetroRoute = isMetroRoute;
     }
@@ -43,6 +46,15 @@ public class Route {
      */
     public String getName() {
         return name;
+    }
+
+    /**
+     * getter for Route Length.
+     *
+     * @return Route's Length
+     */
+    public double getLength() {
+        return length;
     }
 
     /**
@@ -79,6 +91,15 @@ public class Route {
      */
     public void setName(String name) {
         this.name = name;
+    }
+
+    /**
+     * setter for Route length.
+     *
+     * @param length route length
+     */
+    public void setLength(double length) {
+        this.length = length;
     }
 
     /**

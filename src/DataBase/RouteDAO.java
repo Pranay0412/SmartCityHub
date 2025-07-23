@@ -24,11 +24,12 @@ public class RouteDAO {
      * @return true if Route is added
      */
     public boolean addRoute(Route route) {
-        String query = "INSERT INTO Route (Name, IsBusRoute, IsMetroRoute) VALUES (?, ?, ?)";
+        String query = "INSERT INTO Route (Name, Length, IsBusRoute, IsMetroRoute) VALUES (?, ?, ?, ?)";
         try (PreparedStatement stmt = connection.prepareStatement(query)) {
             stmt.setString(1, route.getName());
-            stmt.setBoolean(2, route.isBusRoute());
-            stmt.setBoolean(3, route.isMetroRoute());
+            stmt.setDouble(2,route.getLength());
+            stmt.setBoolean(3, route.isBusRoute());
+            stmt.setBoolean(4, route.isMetroRoute());
             int rowsInserted = stmt.executeUpdate();
             return rowsInserted > 0;
         } catch (SQLException e) {
@@ -52,8 +53,9 @@ public class RouteDAO {
                 Route route = new Route();
                 route.setId(rs.getInt(1));
                 route.setName(rs.getString(2));
-                route.setBusRoute(rs.getBoolean(3));
-                route.setMetroRoute(rs.getBoolean(4));
+                route.setLength(rs.getDouble(3));
+                route.setBusRoute(rs.getBoolean(4));
+                route.setMetroRoute(rs.getBoolean(5));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -75,8 +77,9 @@ public class RouteDAO {
                 Route route = new Route();
                 route.setId(rs.getInt(1));
                 route.setName(rs.getString(2));
-                route.setBusRoute(rs.getBoolean(3));
-                route.setMetroRoute(rs.getBoolean(4));
+                route.setLength(rs.getDouble(3));
+                route.setBusRoute(rs.getBoolean(4));
+                route.setMetroRoute(rs.getBoolean(5));
                 routes.add(route);
             }
         } catch (SQLException e) {
