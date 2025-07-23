@@ -417,4 +417,4 @@ public class Login {
 //-- Insert sample customer (password is 'customer123')
 //INSERT INTO customers (username, password, email, full_name)
 //VALUES ('customer1', 'customer123', 'customer@example.com', 'John Doe');
-}
+
