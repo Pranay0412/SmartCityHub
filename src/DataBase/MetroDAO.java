@@ -7,16 +7,22 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MetroDAO {
-        private Connection connection = DataBaseManager.connection;
+    private Connection connection = DataBaseManager.connection;
 
-        public MetroDAO() {
-            try {
-                DataBaseManager.getConnection();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+    public MetroDAO() {
+        try {
+            DataBaseManager.getConnection();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
+    }
 
+    /**
+     * Add a new Metro.
+     *
+     * @param metro Object of Metro
+     * @return true if Metro is added
+     */
     public boolean addMetro(Metro metro) {
         String query = "INSERT INTO Metro (TrainName, Capacity, CurrentRouteID, CurrentAreaID) VALUES (?, ?, ?, ?)";
         try (PreparedStatement stmt = connection.prepareStatement(query)) {
@@ -32,6 +38,12 @@ public class MetroDAO {
         }
     }
 
+    /**
+     * Get Metro by id.
+     *
+     * @param metroId Metro id
+     * @return Object of Metro
+     */
     public Metro getMetroByID(int metroId) {
         String query = "SELECT * FROM Metro WHERE Id = ?";
         try (PreparedStatement stmt = connection.prepareStatement(query)) {
@@ -52,6 +64,11 @@ public class MetroDAO {
         return null;
     }
 
+    /**
+     * Get all Metros.
+     *
+     * @return list of Metros
+     */
     public List<Metro> getAllMetros() {
         List<Metro> metros = new ArrayList<>();
         String query = "SELECT * FROM Metro";
@@ -72,6 +89,13 @@ public class MetroDAO {
         return metros;
     }
 
+    /**
+     * Update Metro current Location.
+     *
+     * @param metroId Metro id
+     * @param areaID  current Area id
+     * @return true if Metro is Updated
+     */
     public boolean updateMetroLocation(int metroId, int areaID) {
         String query = "UPDATE Metro SET CurrentAreaID = ? WHERE Id = ?";
         try (PreparedStatement stmt = connection.prepareStatement(query)) {
@@ -85,6 +109,13 @@ public class MetroDAO {
         return false;
     }
 
+    /**
+     * Update Metro current Route.
+     *
+     * @param metroId Metro id
+     * @param routeId current Route id
+     * @return true if Metro is Updated
+     */
     public boolean updateMetroRoute(int metroId, int routeId) {
         String query = "UPDATE Bus SET CurrentRouteId = ? WHERE Id = ?";
         try (PreparedStatement stmt = connection.prepareStatement(query)) {

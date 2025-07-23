@@ -17,6 +17,12 @@ public class StationDAO {
         }
     }
 
+    /**
+     * Add a new Station.
+     *
+     * @param station Object of Station
+     * @return true if Station is added
+     */
     public boolean addStation(Station station) {
         String query = "INSERT INTO Station (Name, AreaId, IsBusStation, IsMetroStation) VALUES (?, ?, ?, ?)";
         try (PreparedStatement stmt = connection.prepareStatement(query)) {
@@ -32,6 +38,12 @@ public class StationDAO {
         }
     }
 
+    /**
+     * Get Station by id.
+     *
+     * @param stationID Station id
+     * @return Object of Station
+     */
     public Station getStationById(int stationID) {
         String query = "SELECT * FROM Station WHERE Id = ?";
         try (PreparedStatement stmt = connection.prepareStatement(query)) {
@@ -52,6 +64,11 @@ public class StationDAO {
         return null;
     }
 
+    /**
+     * Get All the Station.
+     *
+     * @return list of the all Stations
+     */
     public List<Station> getAllStops() {
         List<Station> stations = new ArrayList<>();
         String query = "SELECT * FROM Station";
@@ -72,6 +89,12 @@ public class StationDAO {
         return stations;
     }
 
+    /**
+     * Get Station in Location.
+     *
+     * @param areaId Area id
+     * @return List of Station
+     */
     public List<Station> getStopsByAreaId(int areaId) {
         List<Station> stations = new ArrayList<>();
         String query = "SELECT * FROM Station WHERE AreaId = ?";

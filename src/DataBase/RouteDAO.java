@@ -16,7 +16,14 @@ public class RouteDAO {
             e.printStackTrace();
         }
     }
-    public boolean addRoute(Route route){
+
+    /**
+     * Add a new Route.
+     *
+     * @param route Object of Route
+     * @return true if Route is added
+     */
+    public boolean addRoute(Route route) {
         String query = "INSERT INTO Route (Name, IsBusRoute, IsMetroRoute) VALUES (?, ?, ?)";
         try (PreparedStatement stmt = connection.prepareStatement(query)) {
             stmt.setString(1, route.getName());
@@ -29,7 +36,14 @@ public class RouteDAO {
             return false;
         }
     }
-    public Route getRouteById(int routeId){
+
+    /**
+     * Get Route by id.
+     *
+     * @param routeId Route id
+     * @return Object of Route
+     */
+    public Route getRouteById(int routeId) {
         String query = "SELECT * FROM Route WHERE Id = ?";
         try (PreparedStatement stmt = connection.prepareStatement(query)) {
             stmt.setInt(1, routeId);
@@ -46,7 +60,13 @@ public class RouteDAO {
         }
         return null;
     }
-    public List<Route> getAllRoutes(){
+
+    /**
+     * Get All the Route.
+     *
+     * @return list of all the Routes
+     */
+    public List<Route> getAllRoutes() {
         List<Route> routes = new ArrayList<>();
         String query = "SELECT * FROM Route";
         try (Statement stmt = connection.createStatement()) {

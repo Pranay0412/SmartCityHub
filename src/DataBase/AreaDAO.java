@@ -17,6 +17,12 @@ public class AreaDAO {
         }
     }
 
+    /**
+     * Add a new Area.
+     *
+     * @param area Object of Area
+     * @return true if area is added
+     */
     public boolean addArea(Area area) {
         String query = "INSERT INTO Area (Id, Name, Latitude, Longitude, IsEmergencyPoint) VALUES (?, ?, ?, ?, ?)";
         try (PreparedStatement stmt = connection.prepareStatement(query)) {
@@ -34,6 +40,12 @@ public class AreaDAO {
         }
     }
 
+    /**
+     * Get Area by id.
+     *
+     * @param areaId area id
+     * @return Object of Area
+     */
     public Area getAreaById(int areaId) {
         String query = "SELECT * FROM Area WHERE Id = ?";
         try (PreparedStatement stmt = connection.prepareStatement(query)) {
@@ -54,6 +66,11 @@ public class AreaDAO {
         return null;
     }
 
+    /**
+     * Get All the Areas in the city.
+     *
+     * @return list of all the area
+     */
     public List<Area> getAllArea() {
         List<Area> areas = new ArrayList<>();
         String query = "SELECT * FROM Area";
@@ -74,6 +91,12 @@ public class AreaDAO {
         return areas;
     }
 
+    /**
+     * Update area name and Emergency point.
+     *
+     * @param area Object of Area
+     * @return true if Area is updated
+     */
     public boolean updateArea(Area area) {
         String query = "UPDATE Area SET name = ?, isEmergencyPoint = ? WHERE id = ?";
         try (PreparedStatement stmt = connection.prepareStatement(query)) {
@@ -88,6 +111,12 @@ public class AreaDAO {
         }
     }
 
+    /**
+     * To Delete Area by id.
+     *
+     * @param areaId area id
+     * @return true if Area is Deleted
+     */
     public boolean deleteArea(int areaId) {
         String query = "DELETE FROM Area WHERE id = ?";
         try (PreparedStatement stmt = connection.prepareStatement(query)) {
@@ -100,10 +129,18 @@ public class AreaDAO {
         }
     }
 
-
+    /**
+     * Get list of Areas inside Area given by user in the city.
+     *
+     * @param minLat Minimum Latitude
+     * @param maxLat Maximum Latitude
+     * @param minLon Minimum Longitude
+     * @param maxLon Maximum Longitude
+     * @return list of Area inside the area
+     */
     public List<Area> getAreaInArea(double minLat, double maxLat, double minLon, double maxLon) {
         List<Area> areas = new ArrayList<>();
-        String query = "SELECT * FROM Area WHERE Latitude between "+minLat+" and "+maxLat+" AND Longitude between "+minLon+" and "+maxLon+" ORDER BY Id";
+        String query = "SELECT * FROM Area WHERE Latitude between " + minLat + " and " + maxLat + " AND Longitude between " + minLon + " and " + maxLon + " ORDER BY Id";
         try (Statement stmt = connection.createStatement()) {
             ResultSet rs = stmt.executeQuery(query);
             while (rs.next()) {

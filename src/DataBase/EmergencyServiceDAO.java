@@ -17,6 +17,12 @@ public class EmergencyServiceDAO {
         }
     }
 
+    /**
+     * Add a new Emergency Service.
+     *
+     * @param service Object of Service
+     * @return true if Service is added
+     */
     public boolean addEmergencyService(EmergencyService service) {
         String query = "INSERT INTO EmergencyService (Name, Type, AreaId, ContactNumber) VALUES (?, ?, ?, ?)";
         try (PreparedStatement stmt = connection.prepareStatement(query)) {
@@ -32,6 +38,12 @@ public class EmergencyServiceDAO {
         }
     }
 
+    /**
+     * Get Emergency service by id.
+     *
+     * @param serviceId service id
+     * @return Object of EmergencyService
+     */
     public EmergencyService getEmergencyServiceByID(int serviceId) {
         String query = "SELECT * FROM EmergencyService WHERE Id = ?";
         try (PreparedStatement stmt = connection.prepareStatement(query)) {
@@ -52,6 +64,12 @@ public class EmergencyServiceDAO {
         return null;
     }
 
+    /**
+     * Get Emergency Service By Type (For Example = Medical, Fire, Police)
+     *
+     * @param type Service type (For Example = Hospital, Fire, Police)
+     * @return Object of EmergencyService
+     */
     public EmergencyService getEmergencyServiceByType(String type) {
         String query = "SELECT * FROM EmergencyService WHERE Type = ? LIMIT 1";
         try (PreparedStatement stmt = connection.prepareStatement(query)) {
@@ -72,6 +90,11 @@ public class EmergencyServiceDAO {
         return null;
     }
 
+    /**
+     * Get all the Emergency Services.
+     *
+     * @return list of Emergency Services
+     */
     public List<EmergencyService> getAllEmergencyService() {
         List<EmergencyService> services = new ArrayList<>();
         String query = "SELECT * FROM EmergencyService";

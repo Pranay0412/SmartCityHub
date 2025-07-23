@@ -16,7 +16,14 @@ public class ParkingLotDAO {
             e.printStackTrace();
         }
     }
-    public boolean addParkingLot(ParkingLot lot){
+
+    /**
+     * Add a new Parking Lot.
+     *
+     * @param lot Object of Parking Lot
+     * @return true if lot is added
+     */
+    public boolean addParkingLot(ParkingLot lot) {
         String query = "INSERT INTO ParkingLot (Name, Capacity, CurrentOccupancy, AreaId) VALUES (?, ?, ?, ?)";
         try (PreparedStatement stmt = connection.prepareStatement(query)) {
             stmt.setString(1, lot.getName());
@@ -30,7 +37,14 @@ public class ParkingLotDAO {
             return false;
         }
     }
-    public ParkingLot getParkingLotById(int lotId){
+
+    /**
+     * Get Parking Lot by id.
+     *
+     * @param lotId Lot id
+     * @return Object of Parking lot
+     */
+    public ParkingLot getParkingLotById(int lotId) {
         String query = "SELECT * FROM ParkingLot WHERE Id = ?";
         try (PreparedStatement stmt = connection.prepareStatement(query)) {
             stmt.setInt(1, lotId);
@@ -49,7 +63,13 @@ public class ParkingLotDAO {
         }
         return null;
     }
-    public List<ParkingLot> getAllParkingLots(){
+
+    /**
+     * Get all the Parking Lots.
+     *
+     * @return list of Parking lots
+     */
+    public List<ParkingLot> getAllParkingLots() {
         List<ParkingLot> lots = new ArrayList<>();
         String query = "SELECT * FROM ParkingLot";
         try (Statement stmt = connection.createStatement()) {
@@ -68,19 +88,33 @@ public class ParkingLotDAO {
         }
         return lots;
     }
-    public boolean updateParkingOccupancy(int lotId, int newOccupancy){
+
+    /**
+     * Update Parking occupancy by id.
+     *
+     * @param lotId        Lot id
+     * @param newOccupancy Updated occupancy
+     * @return true if Parking Lot is Updated
+     */
+    public boolean updateParkingOccupancy(int lotId, int newOccupancy) {
         String query = "UPDATE ParkingLot SET CurrentOccupancy = ? WHERE Id = ?";
         try (PreparedStatement stmt = connection.prepareStatement(query)) {
             stmt.setInt(1, newOccupancy);
             stmt.setInt(2, lotId);
-            int rowsInserted  = stmt.executeUpdate();
+            int rowsInserted = stmt.executeUpdate();
             return rowsInserted > 0;
         } catch (SQLException e) {
             e.printStackTrace();
         }
         return false;
     }
-    public List<ParkingLot> getAvailableParkingLots(){
+
+    /**
+     * Get all the Parking Lots which have slots to Park.
+     *
+     * @return list of Parking Lots
+     */
+    public List<ParkingLot> getAvailableParkingLots() {
         List<ParkingLot> availableLots = new ArrayList<>();
         String query = "SELECT * FROM ParkingLot WHERE CurrentOccupancy < Capacity";
         try (Statement stmt = connection.createStatement()) {

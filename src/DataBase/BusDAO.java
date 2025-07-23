@@ -17,6 +17,12 @@ public class BusDAO {
         }
     }
 
+    /**
+     * Add a new Bus.
+     *
+     * @param bus Object of Bus
+     * @return true if Bus is added
+     */
     public boolean addBus(Bus bus) {
         String query = "INSERT INTO Bus (LicensePlate, Capacity, CurrentRouteID, CurrentAreaID) VALUES (?, ?, ?, ?)";
         try (PreparedStatement stmt = connection.prepareStatement(query)) {
@@ -32,6 +38,12 @@ public class BusDAO {
         }
     }
 
+    /**
+     * Get Bus by id.
+     *
+     * @param busId Bus id
+     * @return Object of Bus
+     */
     public Bus getBusByID(int busId) {
         String query = "SELECT * FROM Bus WHERE Id = ?";
         try (PreparedStatement stmt = connection.prepareStatement(query)) {
@@ -52,6 +64,11 @@ public class BusDAO {
         return null;
     }
 
+    /**
+     * Get all The Buses.
+     *
+     * @return list of Buses
+     */
     public List<Bus> getAllBuses() {
         List<Bus> buses = new ArrayList<>();
         String query = "SELECT * FROM Bus";
@@ -72,6 +89,13 @@ public class BusDAO {
         return buses;
     }
 
+    /**
+     * Update Bus current Location.
+     *
+     * @param busId  Bus is
+     * @param areaID current Area id
+     * @return true if Bus is Updated
+     */
     public boolean updateBusLocation(int busId, int areaID) {
         String query = "UPDATE Bus SET CurrentAreaID = ? WHERE Id = ?";
         try (PreparedStatement stmt = connection.prepareStatement(query)) {
@@ -85,6 +109,13 @@ public class BusDAO {
         return false;
     }
 
+    /**
+     * Update Bus Current Route.
+     *
+     * @param busId   Bus id
+     * @param routeId current Route id
+     * @return true if Bus is Updated
+     */
     public boolean updateBusRoute(int busId, int routeId) {
         String query = "UPDATE Bus SET CurrentRouteId = ? WHERE Id = ?";
         try (PreparedStatement stmt = connection.prepareStatement(query)) {

@@ -10,12 +10,19 @@ public class ScheduleDAO {
     private Connection connection = DataBaseManager.connection;
 
     public ScheduleDAO() {
-            try {
-                DataBaseManager.getConnection();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+        try {
+            DataBaseManager.getConnection();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
+
+    /**
+     * Add a new Schedule.
+     *
+     * @param schedule Object of Schedule
+     * @return true if schedule is added
+     */
     public boolean addSchedule(Schedule schedule) {
         String query = "INSERT INTO Schedule (RouteId, DepartureTime) VALUES (?, ?)";
         try (PreparedStatement stmt = connection.prepareStatement(query)) {
@@ -28,7 +35,14 @@ public class ScheduleDAO {
             return false;
         }
     }
-    public Schedule getScheduleByRouteId(int routeId){
+
+    /**
+     * Get Schedule by route.
+     *
+     * @param routeId Route id
+     * @return Object of Schedule
+     */
+    public Schedule getScheduleByRouteId(int routeId) {
         String query = "SELECT * FROM Schedule WHERE RouteId = ? ";
         try (PreparedStatement stmt = connection.prepareStatement(query)) {
             stmt.setInt(1, routeId);
@@ -44,5 +58,4 @@ public class ScheduleDAO {
         }
         return null;
     }
-
 }
