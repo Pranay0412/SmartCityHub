@@ -5,9 +5,11 @@ import Model.Area;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 public class AreaDAO {
     private Connection connection = DataBase.DataBaseManager.connection;
+     Scanner scanner = new Scanner(System.in);
 
     public AreaDAO() {
         try {
@@ -20,17 +22,29 @@ public class AreaDAO {
     /**
      * Add a new Area.
      *
-     * @param area Object of Area
      * @return true if area is added
      */
-    public boolean addArea(Area area) {
+    public boolean addArea() {
+        System.out.println("---------- ADD AREA ----------");
+        System.out.println();
         String query = "INSERT INTO Area (Id, Name, Latitude, Longitude, IsEmergencyPoint) VALUES (?, ?, ?, ?, ?)";
         try (PreparedStatement stmt = connection.prepareStatement(query)) {
-            stmt.setInt(1, area.getAreaId());
-            stmt.setString(2, area.getName());
-            stmt.setDouble(3, area.getLatitude());
-            stmt.setDouble(4, area.getLongitude());
-            stmt.setBoolean(5, area.isEmergencyPoint());
+
+            System.out.print("Enter PinCode: ");
+            stmt.setInt(1, scanner.nextInt());
+
+            System.out.print("Enter Name: ");
+            scanner.nextLine();
+            stmt.setString(2, scanner.nextLine().trim());
+
+            System.out.print("Enter Latitude: ");
+            stmt.setDouble(3, scanner.nextDouble());
+
+            System.out.print("Enter Longitude: ");
+            stmt.setDouble(4, scanner.nextDouble());
+
+            System.out.print("Enter 'true' if Area has Emergency Point: ");
+            stmt.setBoolean(5, scanner.nextBoolean());
 
             int rowsInserted = stmt.executeUpdate();
             return rowsInserted > 0;
@@ -43,13 +57,17 @@ public class AreaDAO {
     /**
      * Get Area by id.
      *
-     * @param areaId area id
      * @return Object of Area
      */
-    public Area getAreaById(int areaId) {
+    public Area getAreaById() {
+        System.out.println("---------- AREA BY ID ----------");
+        System.out.println();
         String query = "SELECT * FROM Area WHERE Id = ?";
         try (PreparedStatement stmt = connection.prepareStatement(query)) {
-            stmt.setInt(1, areaId);
+
+            System.out.print("Enter Pincode: ");
+            stmt.setInt(1, scanner.nextInt());
+
             ResultSet rs = stmt.executeQuery();
             if (rs.next()) {
                 Area area = new Area();
@@ -72,6 +90,8 @@ public class AreaDAO {
      * @return list of all the area
      */
     public List<Area> getAllArea() {
+        System.out.println("---------- ALL AREA ----------");
+        System.out.println();
         List<Area> areas = new ArrayList<>();
         String query = "SELECT * FROM Area";
         try (Statement stmt = connection.createStatement()) {
@@ -94,15 +114,23 @@ public class AreaDAO {
     /**
      * Update area name and Emergency point.
      *
-     * @param area Object of Area
      * @return true if Area is updated
      */
-    public boolean updateArea(Area area) {
+    public boolean updateArea() {
+        System.out.println("---------- UPDATE AREA BY ID ----------");
+        System.out.println();
         String query = "UPDATE Area SET name = ?, isEmergencyPoint = ? WHERE id = ?";
         try (PreparedStatement stmt = connection.prepareStatement(query)) {
-            stmt.setString(1, area.getName());
-            stmt.setBoolean(2, area.isEmergencyPoint());
-            stmt.setInt(3, area.getAreaId());
+
+            System.out.print("Enter new Name: ");
+            stmt.setString(1, scanner.nextLine());
+
+            System.out.print("Enter 'true' if Area has Emergency Point: ");
+            stmt.setBoolean(2, scanner.nextBoolean());
+
+            System.out.print("Enter Area PinCode to Update: ");
+            stmt.setInt(3, scanner.nextInt());
+
             int rowsUpdated = stmt.executeUpdate();
             return rowsUpdated > 0;
         } catch (SQLException e) {
@@ -114,13 +142,17 @@ public class AreaDAO {
     /**
      * To Delete Area by id.
      *
-     * @param areaId area id
      * @return true if Area is Deleted
      */
-    public boolean deleteArea(int areaId) {
+    public boolean deleteArea() {
+        System.out.println("---------- DELETE AREA BY ID ----------");
+        System.out.println();
         String query = "DELETE FROM Area WHERE id = ?";
         try (PreparedStatement stmt = connection.prepareStatement(query)) {
-            stmt.setInt(1, areaId);
+
+            System.out.print("Enter Area PinCode to Delete: ");
+            stmt.setInt(1, scanner.nextInt());
+
             int rowsDeleted = stmt.executeUpdate();
             return rowsDeleted > 0;
         } catch (SQLException e) {
@@ -132,14 +164,24 @@ public class AreaDAO {
     /**
      * Get list of Areas inside Area given by user in the city.
      *
-     * @param minLat Minimum Latitude
-     * @param maxLat Maximum Latitude
-     * @param minLon Minimum Longitude
-     * @param maxLon Maximum Longitude
      * @return list of Area inside the area
      */
-    public List<Area> getAreaInArea(double minLat, double maxLat, double minLon, double maxLon) {
+    public List<Area> getAreaInArea() {
+        System.out.println("---------- UPDATE AREA BY ID ----------");
+        System.out.println();
         List<Area> areas = new ArrayList<>();
+        System.out.print("Enter Minimum Latitude: ");
+        double minLat = scanner.nextDouble();
+
+        System.out.print("Enter Maximum Latitude: ");
+        double maxLat = scanner.nextDouble();
+
+        System.out.print("Enter Minimum Longitude: ");
+        double minLon = scanner.nextDouble();
+
+        System.out.print("Enter Maximum Longitude: ");
+        double maxLon = scanner.nextDouble();
+
         String query = "SELECT * FROM Area WHERE Latitude between " + minLat + " and " + maxLat + " AND Longitude between " + minLon + " and " + maxLon + " ORDER BY Id";
         try (Statement stmt = connection.createStatement()) {
             ResultSet rs = stmt.executeQuery(query);
