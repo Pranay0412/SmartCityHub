@@ -31,8 +31,8 @@ public class Ticket {
         this.isBusTransport = isBusTransport;
         this.isMetroTransport = isMetroTransport;
         this.time = time;
-        this.totalBill = calculateBill();
         this.distance = distance;
+        this.totalBill = calculateBill(distance);
     }
 
     /**
