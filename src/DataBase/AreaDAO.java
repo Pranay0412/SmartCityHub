@@ -7,11 +7,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class AreaDAO {
-    private Connection connection = DataBaseManager.connection;
+    private Connection connection = DataBase.DataBaseManager.connection;
 
     public AreaDAO() {
         try {
-            DataBaseManager.getConnection();
+            DataBase.DataBaseManager.getConnection();
         } catch (Exception e) {
             e.printStackTrace();
         }

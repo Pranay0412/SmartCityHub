@@ -15,7 +15,7 @@ public class DataBaseManager {
      *
      * @throws ClassNotFoundException if Driver class Not Found
      */
-    public void getInstance() throws ClassNotFoundException {
+    public static void getInstance() throws ClassNotFoundException {
         String driverManager = "com.mysql.cj.jdbc.Driver";
         Class.forName(driverManager);
         System.out.println("Driver Registered.");
