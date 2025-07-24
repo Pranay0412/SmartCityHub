@@ -5,9 +5,11 @@ import Model.Metro;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 public class MetroDAO {
     private Connection connection = DataBaseManager.connection;
+    public Scanner scanner = new Scanner(System.in);
 
     public MetroDAO() {
         try {
@@ -20,16 +22,26 @@ public class MetroDAO {
     /**
      * Add a new Metro.
      *
-     * @param metro Object of Metro
      * @return true if Metro is added
      */
-    public boolean addMetro(Metro metro) {
+    public boolean addMetro() {
+        System.out.println("---------- ADD METRO ----------");
+        System.out.println();
         String query = "INSERT INTO Metro (TrainName, Capacity, CurrentRouteID, CurrentAreaID) VALUES (?, ?, ?, ?)";
         try (PreparedStatement stmt = connection.prepareStatement(query)) {
-            stmt.setString(1, metro.getTrainName());
-            stmt.setInt(2, metro.getCapacity());
-            stmt.setInt(3, metro.getCurrentRouteID());
-            stmt.setInt(4, metro.getCurrentAreaID());
+
+            System.out.print("Enter Train Name: ");
+            stmt.setString(1, scanner.nextLine().trim());
+
+            System.out.print("Enter Capacity: ");
+            stmt.setInt(2, scanner.nextInt());
+
+            System.out.print("Enter Current Route: ");
+            stmt.setInt(3, scanner.nextInt());
+
+            System.out.print("Enter Current Area: ");
+            stmt.setInt(4, scanner.nextInt());
+
             int rowsInserted = stmt.executeUpdate();
             return rowsInserted > 0;
         } catch (SQLException e) {
@@ -41,13 +53,17 @@ public class MetroDAO {
     /**
      * Get Metro by id.
      *
-     * @param metroId Metro id
      * @return Object of Metro
      */
-    public Metro getMetroByID(int metroId) {
+    public Metro getMetroByID() {
+        System.out.println("---------- METRO BY ID ----------");
+        System.out.println();
         String query = "SELECT * FROM Metro WHERE Id = ?";
         try (PreparedStatement stmt = connection.prepareStatement(query)) {
-            stmt.setInt(1, metroId);
+
+            System.out.print("Enter Id: ");
+            stmt.setInt(1, scanner.nextInt());
+
             ResultSet rs = stmt.executeQuery();
             if (rs.next()) {
                 Metro metro = new Metro();
@@ -70,6 +86,8 @@ public class MetroDAO {
      * @return list of Metros
      */
     public List<Metro> getAllMetros() {
+        System.out.println("---------- ALL METRO ----------");
+        System.out.println();
         List<Metro> metros = new ArrayList<>();
         String query = "SELECT * FROM Metro";
         try (Statement stmt = connection.createStatement()) {
@@ -92,15 +110,20 @@ public class MetroDAO {
     /**
      * Update Metro current Location.
      *
-     * @param metroId Metro id
-     * @param areaID  current Area id
      * @return true if Metro is Updated
      */
-    public boolean updateMetroLocation(int metroId, int areaID) {
+    public boolean updateMetroLocation() {
+        System.out.println("---------- UPDATE METRO AREA ----------");
+        System.out.println();
         String query = "UPDATE Metro SET CurrentAreaID = ? WHERE Id = ?";
         try (PreparedStatement stmt = connection.prepareStatement(query)) {
-            stmt.setInt(1, areaID);
-            stmt.setInt(2, metroId);
+
+            System.out.print("Enter Area PinCode: ");
+            stmt.setInt(1, scanner.nextInt());
+
+            System.out.print("Enter Metro Id to Update: ");
+            stmt.setInt(2, scanner.nextInt());
+
             int rowsInserted = stmt.executeUpdate();
             return rowsInserted > 0;
         } catch (SQLException e) {
@@ -112,15 +135,20 @@ public class MetroDAO {
     /**
      * Update Metro current Route.
      *
-     * @param metroId Metro id
-     * @param routeId current Route id
      * @return true if Metro is Updated
      */
-    public boolean updateMetroRoute(int metroId, int routeId) {
+    public boolean updateMetroRoute() {
+        System.out.println("---------- UPDATE METRO ROUTE ----------");
+        System.out.println();
         String query = "UPDATE Bus SET CurrentRouteId = ? WHERE Id = ?";
         try (PreparedStatement stmt = connection.prepareStatement(query)) {
-            stmt.setInt(1, routeId);
-            stmt.setInt(2, metroId);
+
+            System.out.print("Enter Route Id: ");
+            stmt.setInt(1, scanner.nextInt());
+
+            System.out.print("Enter Metro Id to Update: ");
+            stmt.setInt(2, scanner.nextInt());
+
             int rowsInserted = stmt.executeUpdate();
             return rowsInserted > 0;
         } catch (SQLException e) {

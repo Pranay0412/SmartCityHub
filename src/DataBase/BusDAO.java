@@ -5,9 +5,11 @@ import Model.Bus;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 public class BusDAO {
     private Connection connection = DataBaseManager.connection;
+    public Scanner scanner = new Scanner(System.in);
 
     public BusDAO() {
         try {
@@ -20,16 +22,26 @@ public class BusDAO {
     /**
      * Add a new Bus.
      *
-     * @param bus Object of Bus
      * @return true if Bus is added
      */
-    public boolean addBus(Bus bus) {
+    public boolean addBus() {
+        System.out.println("---------- ADD BUS ----------");
+        System.out.println();
         String query = "INSERT INTO Bus (LicensePlate, Capacity, CurrentRouteID, CurrentAreaID) VALUES (?, ?, ?, ?)";
         try (PreparedStatement stmt = connection.prepareStatement(query)) {
-            stmt.setString(1, bus.getLicensePlate());
-            stmt.setInt(2, bus.getCapacity());
-            stmt.setInt(3, bus.getCurrentRouteId());
-            stmt.setInt(4, bus.getCurrentAreaID());
+
+            System.out.print("Enter Bus License Plate: ");
+            stmt.setString(1, scanner.next().trim());
+
+            System.out.print("Enter Capacity: ");
+            stmt.setInt(2, scanner.nextInt());
+
+            System.out.print("Enter Current Route Id: ");
+            stmt.setInt(3, scanner.nextInt());
+
+            System.out.print("Enter Current Area PinCode: ");
+            stmt.setInt(4, scanner.nextInt());
+
             int rowsInserted = stmt.executeUpdate();
             return rowsInserted > 0;
         } catch (SQLException e) {
@@ -41,13 +53,17 @@ public class BusDAO {
     /**
      * Get Bus by id.
      *
-     * @param busId Bus id
      * @return Object of Bus
      */
-    public Bus getBusByID(int busId) {
+    public Bus getBusByID() {
+        System.out.println("---------- BUS BY ID ----------");
+        System.out.println();
         String query = "SELECT * FROM Bus WHERE Id = ?";
         try (PreparedStatement stmt = connection.prepareStatement(query)) {
-            stmt.setInt(1, busId);
+
+            System.out.print("Enter Bus Id: ");
+            stmt.setInt(1, scanner.nextInt());
+
             ResultSet rs = stmt.executeQuery();
             if (rs.next()) {
                 Bus bus = new Bus();
@@ -70,6 +86,8 @@ public class BusDAO {
      * @return list of Buses
      */
     public List<Bus> getAllBuses() {
+        System.out.println("---------- ALL BUS ----------");
+        System.out.println();
         List<Bus> buses = new ArrayList<>();
         String query = "SELECT * FROM Bus";
         try (Statement stmt = connection.createStatement()) {
@@ -92,15 +110,20 @@ public class BusDAO {
     /**
      * Update Bus current Location.
      *
-     * @param busId  Bus is
-     * @param areaID current Area id
      * @return true if Bus is Updated
      */
-    public boolean updateBusLocation(int busId, int areaID) {
+    public boolean updateBusLocation() {
+        System.out.println("---------- UPDATE BUS AREA ----------");
+        System.out.println();
         String query = "UPDATE Bus SET CurrentAreaID = ? WHERE Id = ?";
         try (PreparedStatement stmt = connection.prepareStatement(query)) {
-            stmt.setInt(1, areaID);
-            stmt.setInt(2, busId);
+
+            System.out.print("Enter Area PinCode: ");
+            stmt.setInt(1, scanner.nextInt());
+
+            System.out.print("Enter Bus Id to Update: ");
+            stmt.setInt(2, scanner.nextInt());
+
             int rowsInserted = stmt.executeUpdate();
             return rowsInserted > 0;
         } catch (SQLException e) {
@@ -112,15 +135,20 @@ public class BusDAO {
     /**
      * Update Bus Current Route.
      *
-     * @param busId   Bus id
-     * @param routeId current Route id
      * @return true if Bus is Updated
      */
-    public boolean updateBusRoute(int busId, int routeId) {
+    public boolean updateBusRoute() {
+        System.out.println("---------- UPDATE BUS ROUTE ----------");
+        System.out.println();
         String query = "UPDATE Bus SET CurrentRouteId = ? WHERE Id = ?";
         try (PreparedStatement stmt = connection.prepareStatement(query)) {
-            stmt.setInt(1, routeId);
-            stmt.setInt(2, busId);
+
+            System.out.print("Enter Route Id: ");
+            stmt.setInt(1, scanner.nextInt());
+
+            System.out.print("Enter Bus Id to Update: ");
+            stmt.setInt(2, scanner.nextInt());
+
             int rowsInserted = stmt.executeUpdate();
             return rowsInserted > 0;
         } catch (SQLException e) {

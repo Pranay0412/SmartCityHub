@@ -5,9 +5,11 @@ import Model.Route;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 public class RouteDAO {
     private Connection connection = DataBaseManager.connection;
+    public Scanner scanner = new Scanner(System.in);
 
     public RouteDAO() {
         try {
@@ -20,16 +22,26 @@ public class RouteDAO {
     /**
      * Add a new Route.
      *
-     * @param route Object of Route
      * @return true if Route is added
      */
-    public boolean addRoute(Route route) {
+    public boolean addRoute() {
+        System.out.println("---------- ADD ROUTE ----------");
+        System.out.println();
         String query = "INSERT INTO Route (Name, Length, IsBusRoute, IsMetroRoute) VALUES (?, ?, ?, ?)";
         try (PreparedStatement stmt = connection.prepareStatement(query)) {
-            stmt.setString(1, route.getName());
-            stmt.setDouble(2,route.getLength());
-            stmt.setBoolean(3, route.isBusRoute());
-            stmt.setBoolean(4, route.isMetroRoute());
+
+            System.out.print("Enter Name: ");
+            stmt.setString(1, scanner.nextLine().trim());
+
+            System.out.print("Enter Length: ");
+            stmt.setDouble(2, scanner.nextDouble());
+
+            System.out.print("Enter 'true' if it is Bus Route: ");
+            stmt.setBoolean(3, scanner.nextBoolean());
+
+            System.out.print("Enter 'true' if it is Metro Route: ");
+            stmt.setBoolean(4, scanner.nextBoolean());
+
             int rowsInserted = stmt.executeUpdate();
             return rowsInserted > 0;
         } catch (SQLException e) {
@@ -41,13 +53,17 @@ public class RouteDAO {
     /**
      * Get Route by id.
      *
-     * @param routeId Route id
      * @return Object of Route
      */
-    public Route getRouteById(int routeId) {
+    public Route getRouteById() {
+        System.out.println("---------- ROUTE BY ID ----------");
+        System.out.println();
         String query = "SELECT * FROM Route WHERE Id = ?";
         try (PreparedStatement stmt = connection.prepareStatement(query)) {
-            stmt.setInt(1, routeId);
+
+            System.out.print("Enter Id: ");
+            stmt.setInt(1, scanner.nextInt());
+
             ResultSet rs = stmt.executeQuery();
             if (rs.next()) {
                 Route route = new Route();
@@ -69,6 +85,8 @@ public class RouteDAO {
      * @return list of all the Routes
      */
     public List<Route> getAllRoutes() {
+        System.out.println("---------- ALL ROUTES ----------");
+        System.out.println();
         List<Route> routes = new ArrayList<>();
         String query = "SELECT * FROM Route";
         try (Statement stmt = connection.createStatement()) {

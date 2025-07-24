@@ -1,7 +1,7 @@
 package Model;
 
 public class Complaint {
-    int id;
+    int id = 1;
     String department;
     int userId;
     String issue;
@@ -10,14 +10,12 @@ public class Complaint {
     /**
      * Constructor for Complaint class.
      *
-     * @param id         for complaint id
      * @param department for which department complaint is registered
      * @param userId     who is registered this complaint
      * @param issue      what issue is in this complaint
-     * @param status     and what is status (false = Pending)
      */
-    public Complaint(int id, String department, int userId, String issue, Boolean status) {
-        this.id = id;
+    public Complaint(String department, int userId, String issue) {
+        id++;
         this.department = department;
         this.userId = userId;
         this.issue = issue;

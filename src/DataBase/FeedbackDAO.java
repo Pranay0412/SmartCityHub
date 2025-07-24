@@ -5,9 +5,11 @@ import Model.Feedback;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 public class FeedbackDAO {
     private Connection connection = DataBaseManager.connection;
+    public Scanner scanner = new Scanner(System.in);
 
     public FeedbackDAO() {
         try {
@@ -20,16 +22,28 @@ public class FeedbackDAO {
     /**
      * To Submit Feedback on database.
      *
-     * @param fb Object of feedback
      * @return true if feedback is added
      */
-    public boolean submitFeedback(Feedback fb) {
+    public boolean submitFeedback() {
+        System.out.println("---------- ADD FEEDBACK ----------");
+        System.out.println();
         String query = "INSERT INTO feedback (UserId, PlaceName, Comments, Rating) VALUES (?, ?, ?, ?)";
         try (PreparedStatement stmt = connection.prepareStatement(query)) {
-            stmt.setInt(1, fb.getUserId());
-            stmt.setString(2, fb.getPlaceName());
-            stmt.setString(3, fb.getComments());
-            stmt.setInt(4, fb.getRating());
+
+            System.out.print("Enter User ID: ");
+            stmt.setInt(1, scanner.nextInt());
+
+            System.out.print("Enter Place Name: ");
+            scanner.nextLine();
+            stmt.setString(2, scanner.nextLine().trim());
+
+            System.out.print("Enter Comments: ");
+            scanner.nextLine();
+            stmt.setString(3, scanner.nextLine().trim());
+
+            System.out.print("Enter Rating Between 1 and 5: ");
+            stmt.setInt(4, scanner.nextInt());
+
             int rowsInserted = stmt.executeUpdate();
             return rowsInserted > 0;
         } catch (SQLException e) {
@@ -44,6 +58,8 @@ public class FeedbackDAO {
      * @return list of feedbacks
      */
     public List<Feedback> reviewLatestFeedback() {
+        System.out.println("---------- REVIEW FEEDBACK ----------");
+        System.out.println();
         List<Feedback> feedbacks = new ArrayList<>();
         String query = "SELECT * FROM Feedback LIMIT 10";
         try (Statement stmt = connection.createStatement()) {

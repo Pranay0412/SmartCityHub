@@ -9,7 +9,7 @@ import java.util.Scanner;
 
 public class AreaDAO {
     private Connection connection = DataBase.DataBaseManager.connection;
-     Scanner scanner = new Scanner(System.in);
+    public Scanner scanner = new Scanner(System.in);
 
     public AreaDAO() {
         try {
@@ -117,13 +117,13 @@ public class AreaDAO {
      * @return true if Area is updated
      */
     public boolean updateArea() {
-        System.out.println("---------- UPDATE AREA BY ID ----------");
+        System.out.println("---------- UPDATE AREA ----------");
         System.out.println();
         String query = "UPDATE Area SET name = ?, isEmergencyPoint = ? WHERE id = ?";
         try (PreparedStatement stmt = connection.prepareStatement(query)) {
 
             System.out.print("Enter new Name: ");
-            stmt.setString(1, scanner.nextLine());
+            stmt.setString(1, scanner.nextLine().trim());
 
             System.out.print("Enter 'true' if Area has Emergency Point: ");
             stmt.setBoolean(2, scanner.nextBoolean());
@@ -145,7 +145,7 @@ public class AreaDAO {
      * @return true if Area is Deleted
      */
     public boolean deleteArea() {
-        System.out.println("---------- DELETE AREA BY ID ----------");
+        System.out.println("---------- DELETE AREA ----------");
         System.out.println();
         String query = "DELETE FROM Area WHERE id = ?";
         try (PreparedStatement stmt = connection.prepareStatement(query)) {

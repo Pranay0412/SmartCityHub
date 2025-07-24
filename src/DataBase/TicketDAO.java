@@ -4,9 +4,11 @@ import Model.Ticket;
 
 import java.sql.*;
 import java.io.*;
+import java.util.Scanner;
 
 public class TicketDAO {
     private Connection connection = DataBaseManager.connection;
+    public Scanner scanner = new Scanner(System.in);
 
     public TicketDAO() {
         try {
@@ -20,20 +22,42 @@ public class TicketDAO {
     /**
      * Add a new Ticket.
      *
-     * @param ticket Object of Ticket
      * @return true if new ticket is added
      */
-    public boolean addTicket(Ticket ticket) {
+    public boolean addTicket() {
+        Ticket ticket = new Ticket();
+        System.out.println("---------- ADD TICKET ----------");
+        System.out.println();
         String query = "INSERT INTO ticket (UserID, RouteId, IsBusTransport, IsMetroTransport, Time, TotalBill, Distance) VALUES (?, ?, ?, ?, ?, ?, ?)";
 
         try (PreparedStatement stmt = connection.prepareStatement(query)) {
-            stmt.setInt(1, ticket.getUserId());
-            stmt.setInt(2, ticket.getRouteId());
-            stmt.setBoolean(3, ticket.isBusTransport());
-            stmt.setBoolean(4, ticket.isMetroTransport());
-            stmt.setTime(5, ticket.getTime());
-            stmt.setDouble(6, ticket.getTotalBill());
-            stmt.setDouble(7, ticket.getDistance());
+
+            System.out.print("Enter User Id: ");
+            stmt.setInt(1, scanner.nextInt());
+
+            System.out.println("Enter Route Id: ");
+            stmt.setInt(2, scanner.nextInt());
+
+            System.out.print("Enter 'true' if it is Bus Transport: ");
+            stmt.setBoolean(3, scanner.nextBoolean());
+
+            System.out.print("Enter 'true' if it is Metro Transport: ");
+            stmt.setBoolean(4, scanner.nextBoolean());
+
+            System.out.println("Enter Time: ");
+            System.out.print("Enter Hour: ");
+            int hour = scanner.nextInt();
+            System.out.print("Enter Minute: ");
+            int minute = scanner.nextInt();
+            System.out.print("Enter Second: ");
+            int second = scanner.nextInt();
+            Time t = new Time(hour, minute, second);
+            stmt.setTime(5, t);
+
+            System.out.print("Enter Travel Distance: ");
+            double distance = scanner.nextDouble();
+            stmt.setDouble(7, distance);
+            stmt.setDouble(6, ticket.calculateBill(distance));
 
             System.out.println("Ticket pending confirmation: " + ticket.getId());
             int rowsInserted = stmt.executeUpdate();
@@ -47,12 +71,15 @@ public class TicketDAO {
     /**
      * To confirm Ticket by User.
      *
-     * @param ticketId ticket id
      * @throws SQLException for connection
      * @throws IOException  for generate bill
      */
-    void commitTicket(int ticketId) throws SQLException, IOException {
+    void commitTicket() throws SQLException, IOException {
+        System.out.println("---------- CONFIRM TICKET ----------");
+        System.out.println();
         connection.commit();
+        System.out.print("Enter Ticket Id: ");
+        int ticketId = scanner.nextInt();
         generateBill(ticketId);
         System.out.println("Ticket confirmed and saved: " + ticketId);
     }
@@ -60,10 +87,13 @@ public class TicketDAO {
     /**
      * To cancel Ticket by User.
      *
-     * @param ticketId ticket id
      * @throws SQLException for connection
      */
-    void rollbackTicket(int ticketId) throws SQLException {
+    void rollbackTicket() throws SQLException {
+        System.out.println("---------- CANCEL TICKET ----------");
+        System.out.println();
+        System.out.print("Enter Ticket Id: ");
+        int ticketId = scanner.nextInt();
         connection.rollback();
         System.out.println("Transaction rolled back, ticket cancelled: " + ticketId);
     }
@@ -99,14 +129,20 @@ public class TicketDAO {
     /**
      * To search Ticket by route and user.
      *
-     * @param routeId route id
-     * @param userId  user id
      * @throws SQLException for connection
      */
-    public void searchTickets(int routeId, int userId) throws SQLException {
+    public void searchTickets() throws SQLException {
+        System.out.println("---------- SEARCH TICKET ----------");
+        System.out.println();
         String sql = "SELECT * FROM ticket WHERE RouteId = ? OR UserId = ?";
         PreparedStatement stmt = connection.prepareStatement(sql);
+
+        System.out.print("Enter Route Id: ");
+        int routeId = scanner.nextInt();
         stmt.setInt(1, routeId);
+
+        System.out.print("Enter User Id: ");
+        int userId = scanner.nextInt();
         stmt.setInt(2, userId);
 
         ResultSet rs = stmt.executeQuery();

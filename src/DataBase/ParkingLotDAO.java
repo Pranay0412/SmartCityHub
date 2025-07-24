@@ -5,9 +5,11 @@ import Model.ParkingLot;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 public class ParkingLotDAO {
     private Connection connection = DataBaseManager.connection;
+    public Scanner scanner = new Scanner(System.in);
 
     public ParkingLotDAO() {
         try {
@@ -20,16 +22,25 @@ public class ParkingLotDAO {
     /**
      * Add a new Parking Lot.
      *
-     * @param lot Object of Parking Lot
      * @return true if lot is added
      */
-    public boolean addParkingLot(ParkingLot lot) {
+    public boolean addParkingLot() {
+        System.out.println("---------- ADD PARKING LOT ----------");
+        System.out.println();
         String query = "INSERT INTO ParkingLot (Name, Capacity, CurrentOccupancy, AreaId) VALUES (?, ?, ?, ?)";
         try (PreparedStatement stmt = connection.prepareStatement(query)) {
-            stmt.setString(1, lot.getName());
-            stmt.setInt(2, lot.getCapacity());
-            stmt.setInt(3, lot.getCurrentOccupancy());
-            stmt.setInt(4, lot.getAreaId());
+            System.out.print("Enter Name: ");
+            stmt.setString(1, scanner.nextLine().trim());
+
+            System.out.print("Enter Capacity: ");
+            stmt.setInt(2, scanner.nextInt());
+
+            System.out.print("Enter Current Occupancy: ");
+            stmt.setInt(3, scanner.nextInt());
+
+            System.out.print("Enter Area PinCode: ");
+            stmt.setInt(4, scanner.nextInt());
+
             int rowsInserted = stmt.executeUpdate();
             return rowsInserted > 0;
         } catch (SQLException e) {
@@ -41,13 +52,17 @@ public class ParkingLotDAO {
     /**
      * Get Parking Lot by id.
      *
-     * @param lotId Lot id
      * @return Object of Parking lot
      */
-    public ParkingLot getParkingLotById(int lotId) {
+    public ParkingLot getParkingLotById() {
+        System.out.println("---------- PARKING LOT BY ID ----------");
+        System.out.println();
         String query = "SELECT * FROM ParkingLot WHERE Id = ?";
         try (PreparedStatement stmt = connection.prepareStatement(query)) {
-            stmt.setInt(1, lotId);
+
+            System.out.print("Enter Lot Id: ");
+            stmt.setInt(1, scanner.nextInt());
+
             ResultSet rs = stmt.executeQuery();
             if (rs.next()) {
                 ParkingLot lot = new ParkingLot();
@@ -70,6 +85,8 @@ public class ParkingLotDAO {
      * @return list of Parking lots
      */
     public List<ParkingLot> getAllParkingLots() {
+        System.out.println("---------- ALL PARKING LOT ----------");
+        System.out.println();
         List<ParkingLot> lots = new ArrayList<>();
         String query = "SELECT * FROM ParkingLot";
         try (Statement stmt = connection.createStatement()) {
@@ -92,15 +109,20 @@ public class ParkingLotDAO {
     /**
      * Update Parking occupancy by id.
      *
-     * @param lotId        Lot id
-     * @param newOccupancy Updated occupancy
      * @return true if Parking Lot is Updated
      */
-    public boolean updateParkingOccupancy(int lotId, int newOccupancy) {
+    public boolean updateParkingOccupancy() {
+        System.out.println("---------- UPDATE PARKING LOT ----------");
+        System.out.println();
         String query = "UPDATE ParkingLot SET CurrentOccupancy = ? WHERE Id = ?";
         try (PreparedStatement stmt = connection.prepareStatement(query)) {
-            stmt.setInt(1, newOccupancy);
-            stmt.setInt(2, lotId);
+
+            System.out.print("Enter new Occupancy: ");
+            stmt.setInt(1, scanner.nextInt());
+
+            System.out.print("Enter Lot Id to Update: ");
+            stmt.setInt(2, scanner.nextInt());
+
             int rowsInserted = stmt.executeUpdate();
             return rowsInserted > 0;
         } catch (SQLException e) {
@@ -115,6 +137,8 @@ public class ParkingLotDAO {
      * @return list of Parking Lots
      */
     public List<ParkingLot> getAvailableParkingLots() {
+        System.out.println("---------- AVAILABLE PARKING LOTS ----------");
+        System.out.println();
         List<ParkingLot> availableLots = new ArrayList<>();
         String query = "SELECT * FROM ParkingLot WHERE CurrentOccupancy < Capacity";
         try (Statement stmt = connection.createStatement()) {

@@ -36,11 +36,17 @@ public class Ticket {
     }
 
     /**
+     * Default Constructor.
+     */
+    public Ticket() {}
+
+    /**
      * To calculate bill as per traveled distance.
      *
+     * @param distance travel distance
      * @return total amount
      */
-    public double calculateBill(){
+    public double calculateBill(double distance){
         return distance * 5;
     }
 
